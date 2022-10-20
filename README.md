@@ -1,5 +1,4 @@
 # Marvel
-## Лабораторные для курса «Программирование мобильных устройств»
 
 <table>
  <tr>
@@ -20,7 +19,7 @@
     <p>- Snapper для достижения snap эффекта при прокрутки</p>
     </td>
     <td width="30%">
-        <img src="./digital/Lab1.gif"</img>
+        <img src="/digital/Lab1.gif"</img>
     </td>
  </tr>
 </table>
