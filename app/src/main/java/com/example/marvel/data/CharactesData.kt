@@ -1,4 +1,7 @@
-package com.example.marvel
+package com.example.marvel.data
+
+import com.example.marvel.R
+import com.example.marvel.domain.model.Character
 
 object CharactesData {
     val charactersData = listOf(

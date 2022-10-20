@@ -1,13 +1,10 @@
-package com.example.marvel
+package com.example.marvel.presentation
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.ViewModel
-import dev.chrisbanes.snapper.SnapperLayoutItemInfo
+import com.example.marvel.R
 
 class MainViewModel : ViewModel() {
 
@@ -18,14 +15,14 @@ class MainViewModel : ViewModel() {
         R.color.brightBlue,
         R.color.cadetBlue,
         R.color.iris,
-        R.color.jade)
+        R.color.jade
+    )
 
-    var isEnabled by mutableStateOf(false)
-    var triangleColor by  mutableStateOf(colors[0])
+    var triangleColor by mutableStateOf(colors[0])
 
     var snapedItem by mutableStateOf(0)
 
-    fun setColor( col : Int?){
+    fun setColor(col: Int?) {
         triangleColor = colors[col!!]
     }
 }
