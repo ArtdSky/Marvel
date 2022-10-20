@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="grey">#282828</color>
+    <color name="burgundy">#A01641</color>
+    <color name="redBlood">#FF0000</color>
+    <color name="brown">#A52A2A</color>
+    <color name="brightBlue">#0096FF</color>
+    <color name="cadetBlue">#5F9EA0</color>
+    <color name="jade">#00A36C</color>
+    <color name="iris">#5D3FD3</color>
+
 </resources>

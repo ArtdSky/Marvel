@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ class MainActivity : ComponentActivity() {
 }
 
 data class Character(
+    var id : Int,
     val name: String,
     val description: String,
     val image: Int
@@ -68,10 +70,10 @@ fun TopLevel() {
 fun CharacterCard(
     character: Character,
     model: MainViewModel = viewModel(),
+    enbl : Boolean
 ) {
-    val sizeState by animateDpAsState( if(model.isEnabled) 580.dp else 400.dp)
-    val paddingState by animateDpAsState( if(model.isEnabled) 80.dp else 180.dp )
-
+    val sizeState by animateDpAsState( if(enbl) 580.dp else 400.dp)
+    val paddingState by animateDpAsState( if(enbl) 80.dp else 180.dp )
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,7 +128,11 @@ fun CharactersList(
             val snappedItem = layoutInfo.currentItem
 
             model.isEnabled = true
-            model.setColor((0..3).random())
+            model.setColor(snappedItem?.index)
+            model.snapedItem = snappedItem?.index ?: 0
+
+            Log.d("TAB", snappedItem?.index.toString() )
+
         } else {
             model.isEnabled = false
         }
@@ -139,8 +145,12 @@ fun CharactersList(
             snapOffsetForItem = SnapOffsets.Center
         )
     ) {
-        items(items = characters) { character ->
-            CharacterCard(character)
+
+        items(items = characters, key = { it.id }) { character ->
+            if(character.id - 1 == model.snapedItem)
+                CharacterCard(character = character, enbl = true)
+            else
+                CharacterCard(character = character, enbl = false)
         }
     }
 }
@@ -150,7 +160,7 @@ fun PreviewCharacter() {
     Box(
         modifier = Modifier.padding(top = 150.dp)
     ) {
-        CharactersList(CharactesData.charactersData)
+        CharactersList(characters = CharactesData.charactersData)
     }
 }
 
@@ -229,12 +239,12 @@ private fun DividedImageCard(model: MainViewModel = viewModel()) {
 
             Box(
                 modifier = modifierLeft
-                    .background(Color.Black)
+                    .background(colorResource(R.color.grey))
             )
 
             Box(
                 modifier = modifierRight
-                    .background(model.triangleColor)
+                    .background(colorResource(model.triangleColor))
             )
         }
     }
