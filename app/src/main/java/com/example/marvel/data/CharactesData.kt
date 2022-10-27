@@ -7,49 +7,58 @@ object CharactesData {
     val charactersData = listOf(
         Character(
             1,
-            "3-D Man",
-            "",
-            R.drawable.three_d_man
+            "Agent Brand",
+            "So imagine a 'cllllick!' at this point.",
+            R.drawable.abigail_brand,
+            "https://i.annihil.us/u/prod/marvel/i/mg/4/60/52695285d6e7e.jpg"
         ),
+
         Character(
             2,
             "A-Bomb",
-            "Rick Jones has been Hulk's best bud since day one, but now he's more than a friend...he's a teammate! Transformed by a Gamma energy explosion, A-Bomb's thick, armored skin is just as strong and powerful as it is blue. And when he curls into action, he uses it like a giant bowling ball of destruction! ",
-            R.drawable.a_bomb
+            "Transformed by a Gamma energy explosion",
+            R.drawable.a_bomb,
+            "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16.jpg"
         ),
         Character(
             3,
             "A.I.M",
             "AIM is a terrorist organization bent on destroying the world.",
-            R.drawable.a_i_m
+            R.drawable.a_i_m,
+            "https://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec.jpg"
         ),
 
         Character(
             4,
             "Absorbing Man",
-            "",
-            R.drawable.absorbing_man
-        ), Character(
+            "Absorbing Man is a fictional character appearing in American comic books published by Marvel Comics. ",
+            R.drawable.absorbing_man,
+            "https://i.annihil.us/u/prod/marvel/i/mg/1/b0/5269678709fb7.jpg"
+        ),
+        Character(
             5,
             "Abyss",
-            "",
-            R.drawable.abyss
+            "known as the Vanishing Point since long before the Celestials and Devourer of Worlds arrived.",
+            R.drawable.abyss,
+            "https://i.annihil.us/u/prod/marvel/i/mg/9/30/535feab462a64.jpg"
         ),
 
         Character(
             6,
             "Adam Warlock",
-            "Adam Warlock is an artificially created human who was born in a cocoon at a scientific complex called The Beehive.",
-            R.drawable.adam_warlock
+            "Was born in a cocoon at a scientific complex called The Beehive.",
+            R.drawable.adam_warlock,
+            "https://i.annihil.us/u/prod/marvel/i/mg/a/f0/5202887448860.jpg"
         ),
-
-
         Character(
             7,
-            "Agent Brand",
-            "",
-            R.drawable.agent_brand
+            "3-D Man",
+            "I'm a 3-D Mannnn budy",
+            R.drawable.three_d_man,
+            "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
         ),
+
+
 
     )
 }

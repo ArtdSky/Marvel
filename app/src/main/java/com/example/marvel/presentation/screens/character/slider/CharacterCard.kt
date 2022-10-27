@@ -1,7 +1,8 @@
-package com.example.marvel.presentation.character
+package com.example.marvel.presentation.screens.character
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -16,12 +17,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.marvel.domain.model.Character
+import com.example.marvel.presentation.navigation.NavRoute
 
 @Composable
 fun CharacterCard(
+    navController: NavHostController,
     character: Character,
-    enableResize: Boolean
+    enableResize: Boolean,
 ) {
     val sizeState by animateDpAsState(if (enableResize) 580.dp else 400.dp)
     val paddingState by animateDpAsState(if (enableResize) 80.dp else 180.dp)
@@ -37,7 +41,9 @@ fun CharacterCard(
                 sizeState // 580 400
             )
             .clip(RoundedCornerShape(16.dp))
-
+            .clickable {
+                navController.navigate(NavRoute.CharacterDetail.route + "/${character.id}")
+            }
 
     ) {
         Image(
