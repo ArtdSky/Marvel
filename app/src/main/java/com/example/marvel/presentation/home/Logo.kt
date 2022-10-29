@@ -1,4 +1,4 @@
-package com.example.marvel.presentation.screens.logo
+package com.example.marvel.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

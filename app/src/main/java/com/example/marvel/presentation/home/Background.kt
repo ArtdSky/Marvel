@@ -1,4 +1,4 @@
-package com.example.marvel.presentation.screens.background
+package com.example.marvel.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.marvel.R
-import com.example.marvel.presentation.MainViewModel
 
 @Composable
 fun Background(model: MainViewModel = viewModel()) {

@@ -1,6 +1,5 @@
 package com.example.marvel.presentation.screens.character.detail
 
-import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -20,7 +19,6 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.marvel.data.CharactesData
 import com.example.marvel.domain.model.Character
-import com.example.marvel.presentation.navigation.NavRoute
 
 @Composable
 fun CharacterDetail(navController: NavHostController, characterId: String?) {
