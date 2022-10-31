@@ -1,5 +1,6 @@
 package com.example.marvel.presentation.screens.background
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,13 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.marvel.R
 import com.example.marvel.presentation.MainViewModel
+import com.example.marvel.presentation.MainViewModelFactory
 
 @Composable
-fun Background(model: MainViewModel = viewModel()) {
+fun Background() {
+    val context = LocalContext.current
+    val mViewModel: MainViewModel = viewModel(
+        factory = MainViewModelFactory(context.applicationContext as Application)
+    )
+
     Card() {
         Box(
             modifier = Modifier
@@ -63,7 +71,7 @@ fun Background(model: MainViewModel = viewModel()) {
 
             Box(
                 modifier = modifierRight
-                    .background(colorResource(model.triangleColor))
+                    .background(colorResource(mViewModel.triangleColor))
             )
         }
     }

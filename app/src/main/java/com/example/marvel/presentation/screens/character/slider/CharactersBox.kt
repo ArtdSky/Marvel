@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.marvel.data.CharactesData
+import com.example.marvel.presentation.screens.character.slider.CharactersList
 
 @Composable
 fun CharacterBox(navController: NavHostController) {
