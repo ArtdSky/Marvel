@@ -18,11 +18,8 @@ import com.example.marvel.presentation.MainViewModel
 import com.example.marvel.presentation.MainViewModelFactory
 
 @Composable
-fun Background() {
-    val context = LocalContext.current
-    val mViewModel: MainViewModel = viewModel(
-        factory = MainViewModelFactory(context.applicationContext as Application)
-    )
+fun Background(viewModel: MainViewModel) {
+
 
     Card() {
         Box(
@@ -71,7 +68,7 @@ fun Background() {
 
             Box(
                 modifier = modifierRight
-                    .background(colorResource(mViewModel.triangleColor))
+                    .background(colorResource(viewModel.triangleColor))
             )
         }
     }

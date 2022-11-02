@@ -1,6 +1,7 @@
 package com.example.marvel.presentation.screens.character.slider
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -12,7 +13,6 @@ import androidx.navigation.NavHostController
 import com.example.marvel.domain.model.Character
 import com.example.marvel.presentation.MainViewModel
 import com.example.marvel.presentation.MainViewModelFactory
-import com.example.marvel.presentation.screens.character.CharacterCard
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.SnapOffsets
 import dev.chrisbanes.snapper.rememberLazyListSnapperLayoutInfo
@@ -22,12 +22,10 @@ import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 @Composable
 fun CharactersList(
     navController: NavHostController,
+    viewModel : MainViewModel,
     characters: List<Character>
 ) {
-    val context = LocalContext.current
-    val mViewModel: MainViewModel = viewModel(
-        factory = MainViewModelFactory(context.applicationContext as Application)
-    )
+
 
     val lazyListState = rememberLazyListState()
     val layoutInfo = rememberLazyListSnapperLayoutInfo(lazyListState)
@@ -37,8 +35,8 @@ fun CharactersList(
         if (!lazyListState.isScrollInProgress) {
             val snappedItem = layoutInfo.currentItem
 
-            mViewModel.setColor(snappedItem?.index)
-            mViewModel.snapedItem = snappedItem?.index ?: 0
+            viewModel.setColor(snappedItem?.index)
+            viewModel.snapedItem = snappedItem?.index ?: 0
         }
     }
 
@@ -51,14 +49,16 @@ fun CharactersList(
     ) {
 
         items(items = characters, key = { it.id }) { character ->
-            if (character.id - 1 == mViewModel.snapedItem)
+            if (character.id - 1 == viewModel.snapedItem)
                 CharacterCard(
+                    viewModel = viewModel,
                     character = character,
                     enableResize = true,
                     navController = navController
                 )
             else
                 CharacterCard(
+                    viewModel = viewModel,
                     character = character,
                     enableResize = false,
                     navController = navController
