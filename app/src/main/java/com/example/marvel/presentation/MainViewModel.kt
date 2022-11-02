@@ -14,11 +14,13 @@ import kotlinx.coroutines.launch
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
+        getAllCharacters()
+    }
+    private fun getAllCharacters(){
         viewModelScope.launch {
             try {
                 val listResult = MarvelApi.retrofitService.getCharacters()
                 _status.value = listResult.data.results
-//                Log.d("TAB", listResult.data.results.toString())
             } catch (e: Exception) {
                 Log.d("TABB", e.message.toString())
             }
@@ -29,10 +31,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val status: LiveData<List<Result>> = _status
 
 
-    var triangleColor by mutableStateOf(colors[0])
-
     var snapedItem by mutableStateOf(0)
-
+    var triangleColor by mutableStateOf(colors[0])
     fun setColor(col: Int?) {
         triangleColor = colors[col!!]
     }

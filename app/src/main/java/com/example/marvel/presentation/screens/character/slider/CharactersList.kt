@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -25,7 +26,14 @@ fun CharactersList(
     viewModel : MainViewModel,
     characters: List<Character>
 ) {
+    val allCharacters  = viewModel.status.observeAsState().value
 
+
+    allCharacters?.let{
+        it.forEach{
+            Log.d("TAB-CARD", it.toString() )
+        }
+    }
 
     val lazyListState = rememberLazyListState()
     val layoutInfo = rememberLazyListSnapperLayoutInfo(lazyListState)
