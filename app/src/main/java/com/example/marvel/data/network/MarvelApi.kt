@@ -19,5 +19,7 @@ object MarvelApi {
         .build()
 
 
-    val retrofitService: CharactersMarvelApiService by lazy { retrofit.create(CharactersMarvelApiService::class.java) }
+    val retrofitCharactersService: CharactersMarvelApiService by lazy { retrofit.create(CharactersMarvelApiService::class.java) }
+    val retrofitCharacterService: CharacterMarvelApiService by lazy { retrofit.create(CharacterMarvelApiService::class.java) }
+
 }

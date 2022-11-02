@@ -11,30 +11,46 @@ import com.example.marvel.data.network.models.Result
 import com.example.marvel.presentation.utils.colors
 import kotlinx.coroutines.launch
 
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    init {
-        getAllCharacters()
-    }
-    private fun getAllCharacters(){
-        viewModelScope.launch {
+
+    fun getAllCharacters() {
+        viewModelScope.launch() {
             try {
-                val listResult = MarvelApi.retrofitService.getCharacters()
-                _status.value = listResult.data.results
+                val listResult = MarvelApi.retrofitCharactersService.getCharacters()
+                _characters.value = listResult.data.results
             } catch (e: Exception) {
-                Log.d("TABB", e.message.toString())
+                Log.d("TAB-VM", e.message.toString())
+                _error.value = e.message.toString()
             }
         }
     }
 
-    private val _status = MutableLiveData<List<Result>>()
-    val status: LiveData<List<Result>> = _status
+    fun getCharacter(id: String?) {
+        viewModelScope.launch() {
+            try {
+                val listResult = MarvelApi.retrofitCharacterService.getCharacter(id)
+                _character.value = listResult.data.results
+            } catch (e: Exception) {
+                _error.value = e.message.toString()
+            }
+        }
+    }
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
+    private val _characters = MutableLiveData<List<Result>>()
+    val characters: LiveData<List<Result>> = _characters
+
+    private val _character = MutableLiveData<List<Result>>()
+    val character: LiveData<List<Result>> = _character
 
     var snapedItem by mutableStateOf(0)
     var triangleColor by mutableStateOf(colors[0])
     fun setColor(col: Int?) {
-        triangleColor = colors[col!!]
+        triangleColor = colors.random()
     }
 }
 
