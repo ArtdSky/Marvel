@@ -49,7 +49,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var snapedItem by mutableStateOf(0)
     var triangleColor by mutableStateOf(colors[0])
-    fun setColor(col: Int?) {
+    fun setColor() {
         triangleColor = colors.random()
     }
 }

@@ -1,19 +1,24 @@
 package com.example.marvel.presentation.screens.character.slider
 
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.marvel.data.network.models.Result
 import com.example.marvel.presentation.MainViewModel
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
-import dev.chrisbanes.snapper.SnapOffsets
-import dev.chrisbanes.snapper.rememberLazyListSnapperLayoutInfo
-import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
-@OptIn(ExperimentalSnapperApi::class)
+@OptIn(ExperimentalSnapperApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun CharactersList(
     navController: NavHostController,
@@ -21,45 +26,41 @@ fun CharactersList(
     characters: List<Result>
 ) {
 
+    val state = rememberLazyListState()
+    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state) }
+    val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
-    val lazyListState = rememberLazyListState()
-    val layoutInfo = rememberLazyListSnapperLayoutInfo(lazyListState)
-
-
-    LaunchedEffect(lazyListState.isScrollInProgress) {
-        if (!lazyListState.isScrollInProgress) {
-            val snappedItem = layoutInfo.currentItem
-
-            viewModel.setColor(snappedItem?.index)
-            viewModel.snapedItem = snappedItem?.index ?: 0
+    LaunchedEffect(state.isScrollInProgress) {
+        if (!state.isScrollInProgress) {
+            state.layoutInfo.visibleItemsInfo.forEach { item ->
+                viewModel.snapedItem = item.index
+            }
+            viewModel.setColor()
         }
     }
 
-    LazyRow(
-        state = lazyListState,
-        flingBehavior = rememberSnapperFlingBehavior(
-            lazyListState = lazyListState,
-            snapOffsetForItem = SnapOffsets.Center
-        )
-    ) {
 
-        items(items = characters) { character ->
-//            Log.d("TAB-LIST", character.toString() )
-//
-//            if (character.id - 1 == viewModel.snapedItem)
-//                CharacterCard(
-//                    viewModel = viewModel,
-//                    character = character,
-//                    enableResize = true,
-//                    navController = navController
-//                )
-//            else
-            CharacterCard(
-                viewModel = viewModel,
-                character = character,
-                enableResize = false,
-                navController = navController
-            )
+    LazyRow(
+        state = state,
+        verticalAlignment = Alignment.CenterVertically,
+        flingBehavior = flingBehavior,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        itemsIndexed(items = characters) { index, character ->
+            if (index + 1  == viewModel.snapedItem)
+                CharacterCard(
+                    viewModel = viewModel,
+                    character = character,
+                    enableResize = true,
+                    navController = navController
+                )
+            else
+                CharacterCard(
+                    viewModel = viewModel,
+                    character = character,
+                    enableResize = false,
+                    navController = navController
+                )
         }
     }
 }
