@@ -1,6 +1,5 @@
 package com.example.marvel.presentation.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,14 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.marvel.presentation.MainViewModel
-import com.example.marvel.presentation.screens.background.Background
+import com.example.marvel.presentation.screens.background.MainScreenBackground
 import com.example.marvel.presentation.screens.character.slider.CharacterBox
 import com.example.marvel.presentation.screens.logo.Logo
 
 @Composable
 fun Home(navController: NavHostController, viewModel : MainViewModel) {
 
-    Background( viewModel = viewModel)
+    MainScreenBackground( viewModel = viewModel)
     if(viewModel.error.observeAsState().value == null){
         Logo()
         CharacterBox(navController = navController, viewModel = viewModel)
