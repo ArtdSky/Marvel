@@ -1,6 +1,6 @@
 package com.example.marvel.presentation.screens.character.slider
 
-import android.util.Log
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -16,9 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.marvel.data.network.models.Result
 import com.example.marvel.presentation.MainViewModel
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
-@OptIn(ExperimentalSnapperApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CharactersList(
     navController: NavHostController,
@@ -35,8 +34,9 @@ fun CharactersList(
             state.layoutInfo.visibleItemsInfo.forEach { item ->
                 viewModel.snapedItem = item.index
             }
-            viewModel.setColor()
+
         }
+
     }
 
 

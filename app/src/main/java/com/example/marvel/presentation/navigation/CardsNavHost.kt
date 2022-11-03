@@ -1,11 +1,10 @@
-package com.example.marvel
+package com.example.marvel.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.marvel.presentation.MainViewModel
-import com.example.marvel.presentation.navigation.NavRoute
 import com.example.marvel.presentation.screens.character.detail.CharacterDetail
 import com.example.marvel.presentation.screens.home.Home
 

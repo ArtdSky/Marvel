@@ -1,30 +1,39 @@
 package com.example.marvel.presentation.screens.character.slider
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.palette.graphics.Palette
 import coil.compose.AsyncImage
+import com.example.marvel.data.network.models.Result
 import com.example.marvel.presentation.MainViewModel
 import com.example.marvel.presentation.navigation.NavRoute
-import com.example.marvel.data.network.models.Result
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.net.URL
+
 
 @Composable
 fun CharacterCard(
@@ -34,6 +43,22 @@ fun CharacterCard(
     enableResize: Boolean,
 ) {
 
+//    val url = URL("${character.thumbnail.path}.${character.thumbnail.extension}")
+//    var image : Bitmap
+//    val bitmap = remember {
+//        BitmapFactory.decodeStream(url.openConnection().getInputStream())
+//    }
+//    val palette = remember {
+//        Palette.from(bitmap).generate()
+//    }
+//    val darkVibrantSwatch = palette.darkVibrantSwatch
+//    viewModel.setColor( darkVibrantSwatch?.let { Color(it.rgb) } )
+//
+//    LaunchedEffect(character.id){
+//        val bitmap = remember {
+//            BitmapFactory.decodeStream(url.openConnection().getInputStream())
+//        }
+//    }
 
     val sizeState by animateDpAsState(if (enableResize) 580.dp else 400.dp)
     val paddingState by animateDpAsState(if (enableResize) 80.dp else 180.dp)
@@ -47,7 +72,7 @@ fun CharacterCard(
             .height(
                 sizeState // 580 400
             )
-            .width( 400.dp )
+            .width(400.dp)
             .clip(RoundedCornerShape(16.dp))
             .clickable {
                 navController.navigate(NavRoute.CharacterDetail.route + "/${character.id}")

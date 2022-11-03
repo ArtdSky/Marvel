@@ -2,15 +2,12 @@ package com.example.marvel.presentation
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.marvel.CardsNavHost
+import com.example.marvel.presentation.navigation.CardsNavHost
 
 class MainActivity : ComponentActivity() {
 

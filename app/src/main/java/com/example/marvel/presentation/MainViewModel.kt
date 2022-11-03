@@ -1,10 +1,12 @@
 package com.example.marvel.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.*
 import com.example.marvel.data.network.MarvelApi
 import com.example.marvel.data.network.models.Result
@@ -16,7 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getAllCharacters() {
-        viewModelScope.launch() {
+        viewModelScope.launch{
             try {
                 val listResult = MarvelApi.retrofitCharactersService.getCharacters()
                 _characters.value = listResult.data.results
@@ -28,7 +30,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getCharacter(id: String?) {
-        viewModelScope.launch() {
+        viewModelScope.launch{
             try {
                 val listResult = MarvelApi.retrofitCharacterService.getCharacter(id)
                 _character.value = listResult.data.results
@@ -48,9 +50,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val character: LiveData<List<Result>> = _character
 
     var snapedItem by mutableStateOf(0)
-    var triangleColor by mutableStateOf(colors[0])
-    fun setColor() {
-        triangleColor = colors.random()
+
+    private val _imageTriangle = MutableLiveData<Bitmap>()
+    val imageTriangle: LiveData<Bitmap> = _imageTriangle
+
+    var triangleColor by mutableStateOf(Color.Red)
+    fun setColor( color: Color? ) {
+        triangleColor = color ?: Color.Red
     }
 }
 

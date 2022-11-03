@@ -68,7 +68,7 @@ fun Background(viewModel: MainViewModel) {
 
             Box(
                 modifier = modifierRight
-                    .background(colorResource(viewModel.triangleColor))
+                    .background(viewModel.triangleColor)
             )
         }
     }
