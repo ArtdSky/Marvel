@@ -1,4 +1,4 @@
-package com.example.marvel.presentation.screens.background
+package com.example.marvel.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -15,9 +15,7 @@ import com.example.marvel.presentation.MainViewModel
 
 @Composable
 fun MainScreenBackground(viewModel: MainViewModel) {
-
-
-    Card() {
+    Card {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -42,28 +40,24 @@ fun MainScreenBackground(viewModel: MainViewModel) {
                 close()
             }
 
-            val modifierLeft = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    clip = true
-                    shape = shapeLeft
-                }
-
-
-            val modifierRight = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    clip = true
-                    shape = shapeRight
-                }
 
             Box(
-                modifier = modifierLeft
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        clip = true
+                        shape = shapeLeft
+                    }
                     .background(colorResource(R.color.grey))
             )
 
             Box(
-                modifier = modifierRight
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        clip = true
+                        shape = shapeRight
+                    }
                     .background(viewModel.triangleColor)
             )
         }

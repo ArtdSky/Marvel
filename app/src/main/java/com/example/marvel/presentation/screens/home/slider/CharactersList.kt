@@ -1,6 +1,5 @@
-package com.example.marvel.presentation.screens.character.slider
+package com.example.marvel.presentation.screens.home.slider
 
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior

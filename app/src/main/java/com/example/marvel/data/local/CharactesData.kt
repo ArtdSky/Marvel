@@ -1,4 +1,4 @@
-package com.example.marvel.data
+package com.example.marvel.data.local
 
 import com.example.marvel.R
 import com.example.marvel.domain.model.Character
@@ -57,8 +57,5 @@ object CharactesData {
             R.drawable.three_d_man,
             "https://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg"
         ),
-
-
-
     )
 }

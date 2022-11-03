@@ -1,6 +1,5 @@
-package com.example.marvel.presentation.screens.character.detail
+package com.example.marvel.presentation.screens.detail
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card

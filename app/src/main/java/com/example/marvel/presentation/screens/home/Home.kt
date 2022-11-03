@@ -13,14 +13,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.marvel.presentation.MainViewModel
-import com.example.marvel.presentation.screens.background.MainScreenBackground
-import com.example.marvel.presentation.screens.character.slider.CharacterBox
-import com.example.marvel.presentation.screens.logo.Logo
+import com.example.marvel.presentation.screens.home.slider.CharacterBox
 
 @Composable
 fun Home(navController: NavHostController, viewModel : MainViewModel) {
 
     MainScreenBackground( viewModel = viewModel)
+
     if(viewModel.error.observeAsState().value == null){
         Logo()
         CharacterBox(navController = navController, viewModel = viewModel)
