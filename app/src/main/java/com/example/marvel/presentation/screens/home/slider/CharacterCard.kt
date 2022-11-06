@@ -1,12 +1,15 @@
 package com.example.marvel.presentation.screens.home.slider
 
+import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,8 +25,11 @@ import coil.compose.AsyncImage
 import com.example.marvel.data.network.models.Result
 import com.example.marvel.presentation.MainViewModel
 import com.example.marvel.presentation.navigation.NavRoute
+import java.net.URL
+import androidx.palette.graphics.Palette
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun CharacterCard(
     navController: NavHostController,
@@ -32,22 +38,11 @@ fun CharacterCard(
     enableResize: Boolean,
 ) {
 
-//    val url = URL("${character.thumbnail.path}.${character.thumbnail.extension}")
-//    var image : Bitmap
-//    val bitmap = remember {
-//        BitmapFactory.decodeStream(url.openConnection().getInputStream())
-//    }
-//    val palette = remember {
-//        Palette.from(bitmap).generate()
-//    }
-//    val darkVibrantSwatch = palette.darkVibrantSwatch
-//    viewModel.setColor( darkVibrantSwatch?.let { Color(it.rgb) } )
-//
-//    LaunchedEffect(character.id){
-//        val bitmap = remember {
-//            BitmapFactory.decodeStream(url.openConnection().getInputStream())
-//        }
-//    }
+    if(enableResize){
+        val url = URL("${character.thumbnail.path}.${character.thumbnail.extension}")
+        viewModel.setImgUrl( url )
+    }
+
 
     val sizeState by animateDpAsState(if (enableResize) 580.dp else 400.dp)
     val paddingState by animateDpAsState(if (enableResize) 80.dp else 180.dp)

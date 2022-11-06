@@ -8,7 +8,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,15 +29,16 @@ fun CharacterDetail(
     characterId: String?,
     viewModel: MainViewModel
 ) {
-    viewModel.getCharacter(characterId)
 
-    val character = viewModel.character.observeAsState().value
+    viewModel.getCharacter(characterId)
+    val state by viewModel.viewState.collectAsState()
+    val character = state.character
 
     character?.let {
         Card(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.fillMaxSize()) {
                 AsyncImage(
-                    model = "${it[0].thumbnail.path}.${it[0].thumbnail.extension}",
+                    model = "${it.thumbnail.path}.${it.thumbnail.extension}",
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -64,7 +66,7 @@ fun CharacterDetail(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = it[0].name,
+                    text = it.name,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Left,
@@ -73,7 +75,7 @@ fun CharacterDetail(
                     modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp)
                 )
                 Text(
-                    text = it[0].description.ifEmpty { "I am ${it[0].name}" },
+                    text = it.description.ifEmpty { "I am ${it.name}" },
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Left,
@@ -84,8 +86,6 @@ fun CharacterDetail(
             }
         }
     }
-
-
 }
 
 

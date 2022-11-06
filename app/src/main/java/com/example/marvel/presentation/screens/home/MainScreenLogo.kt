@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.example.marvel.R
 
 @Composable
-fun Logo() {
+fun MainScreenLogo() {
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier

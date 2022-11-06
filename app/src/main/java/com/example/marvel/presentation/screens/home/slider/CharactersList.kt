@@ -1,5 +1,6 @@
 package com.example.marvel.presentation.screens.home.slider
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -21,45 +22,45 @@ import com.example.marvel.presentation.MainViewModel
 fun CharactersList(
     navController: NavHostController,
     viewModel: MainViewModel,
-    characters: List<Result>
+    characters: List<Result>?
 ) {
 
-    val state = rememberLazyListState()
-    val snappingLayout = remember(state) { SnapLayoutInfoProvider(state) }
+    val stateLazyList = rememberLazyListState()
+    val snappingLayout = remember(stateLazyList) { SnapLayoutInfoProvider(stateLazyList) }
     val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
 
-    LaunchedEffect(state.isScrollInProgress) {
-        if (!state.isScrollInProgress) {
-            state.layoutInfo.visibleItemsInfo.forEach { item ->
-                viewModel.snapedItem = item.index
+    LaunchedEffect(stateLazyList.isScrollInProgress) {
+        if (!stateLazyList.isScrollInProgress) {
+            stateLazyList.layoutInfo.visibleItemsInfo.forEach { item ->
+                viewModel.snappedItem = item.index
             }
-
         }
-
     }
 
-
     LazyRow(
-        state = state,
+        state = stateLazyList,
         verticalAlignment = Alignment.CenterVertically,
         flingBehavior = flingBehavior,
         modifier = Modifier.fillMaxSize()
     ) {
-        itemsIndexed(items = characters) { index, character ->
-            if (index + 1  == viewModel.snapedItem)
-                CharacterCard(
-                    viewModel = viewModel,
-                    character = character,
-                    enableResize = true,
-                    navController = navController
-                )
-            else
-                CharacterCard(
-                    viewModel = viewModel,
-                    character = character,
-                    enableResize = false,
-                    navController = navController
-                )
+        characters?.let {
+            itemsIndexed(items = it) { index, character ->
+                if (index +1 == viewModel.snappedItem){
+//                    Log.d("TAG-LIST", "${index + 1} == ${viewModel.snappedItem}".toString())
+                    CharacterCard(
+                        viewModel = viewModel,
+                        character = character,
+                        enableResize = true,
+                        navController = navController
+                    )}
+                else{
+                    CharacterCard(
+                        viewModel = viewModel,
+                        character = character,
+                        enableResize = false,
+                        navController = navController
+                    )}
+            }
         }
     }
 }

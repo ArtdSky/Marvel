@@ -10,6 +10,7 @@ import com.example.marvel.presentation.screens.home.Home
 
 @Composable
 fun CardsNavHost(navController: NavHostController, viewModel: MainViewModel) {
+
     viewModel.getAllCharacters()
 
     NavHost(

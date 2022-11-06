@@ -3,7 +3,8 @@ package com.example.marvel.presentation.screens.home
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -16,16 +17,17 @@ import com.example.marvel.presentation.MainViewModel
 import com.example.marvel.presentation.screens.home.slider.CharacterBox
 
 @Composable
-fun Home(navController: NavHostController, viewModel : MainViewModel) {
+fun Home(navController: NavHostController, viewModel: MainViewModel) {
+    val state by viewModel.viewState.collectAsState()
+    val gotError = state.gotError
 
-    MainScreenBackground( viewModel = viewModel)
-
-    if(viewModel.error.observeAsState().value == null){
-        Logo()
+    MainScreenBackground(viewModel = viewModel)
+    if (gotError == null) {
+        MainScreenLogo()
         CharacterBox(navController = navController, viewModel = viewModel)
-    } else{
+    } else {
         Text(
-            text = "Sorry but: ${viewModel.error.observeAsState().value.toString()}",
+            text = "Sorry but: $gotError",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,
@@ -34,6 +36,4 @@ fun Home(navController: NavHostController, viewModel : MainViewModel) {
             modifier = Modifier.padding(top = 100.dp)
         )
     }
-
-
 }

@@ -6,15 +6,29 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import com.example.marvel.R
 import com.example.marvel.presentation.MainViewModel
+import java.net.URL
 
 @Composable
 fun MainScreenBackground(viewModel: MainViewModel) {
+
+    val url: URL? by viewModel.url.observeAsState()
+
+    val context = LocalContext.current
+
+    viewModel.setPalette(url, context)
+    val vibrantSwatch = viewModel.palette.value?.dominantSwatch
+
+
+
     Card {
         Box(
             modifier = Modifier
@@ -58,7 +72,9 @@ fun MainScreenBackground(viewModel: MainViewModel) {
                         clip = true
                         shape = shapeRight
                     }
-                    .background(viewModel.triangleColor)
+                    .background(
+                        viewModel.setHeroColor(vibrantSwatch)
+                    )
             )
         }
     }
