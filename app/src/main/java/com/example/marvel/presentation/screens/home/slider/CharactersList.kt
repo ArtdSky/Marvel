@@ -46,7 +46,7 @@ fun CharactersList(
         characters?.let {
             itemsIndexed(items = it) { index, character ->
                 if (index +1 == viewModel.snappedItem){
-//                    Log.d("TAG-LIST", "${index + 1} == ${viewModel.snappedItem}".toString())
+                    Log.d("TAG-LIST", "${index + 1} == ${viewModel.snappedItem}".toString())
                     CharacterCard(
                         viewModel = viewModel,
                         character = character,
