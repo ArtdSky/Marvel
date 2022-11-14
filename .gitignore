@@ -79,4 +79,4 @@ gradle.properties
 .idea
 
 gradle/
-/app/src/androidTest/
+
