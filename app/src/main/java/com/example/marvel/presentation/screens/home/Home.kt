@@ -22,12 +22,12 @@ fun Home(navController: NavHostController, viewModel: MainViewModel) {
     val gotError = state.gotError
 
     MainScreenBackground(viewModel = viewModel)
-    if (gotError == null) {
+    if (!gotError) {
         MainScreenLogo()
         CharacterBox(navController = navController, viewModel = viewModel)
     } else {
         Text(
-            text = "Sorry but: $gotError",
+            text = "Sorry but:${state.codeError} ${state.messageError}",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,

@@ -8,13 +8,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.*
 import androidx.palette.graphics.Palette
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.example.marvel.data.network.MarvelApi
-import com.example.marvel.data.network.models.Result
+import com.example.marvel.data.network.models.ErrorResponse
+import com.skydoves.retrofit.adapters.result.onFailureSuspend
+import com.skydoves.retrofit.adapters.result.onSuccessSuspend
+import com.skydoves.retrofit.adapters.serialization.deserializeHttpError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,50 +27,75 @@ import java.net.URL
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    data class ViewState(
-        val character: Result? = null,
-        val imageBitmap: ImageBitmap? = null,
-        val colorPalette: Palette? = null,
-        val gotError: String? = null,
-        val characters: List<Result>? = null,
-    )
-
     private val _viewState = MutableStateFlow(ViewState())
     val viewState = _viewState.asStateFlow()
 
     fun getAllCharacters() {
         viewModelScope.launch {
             try {
-                val listResult = MarvelApi.retrofitCharactersService.getCharacters()
-                _viewState.update { currentState: ViewState ->
-                    currentState.copy(
-                        characters = listResult.data.results,
-                        gotError = null
-                    )
+                val result = MarvelApi.retrofitCharactersService.getCharacters()
+                result.onSuccessSuspend {
+                    _viewState.update { currentState: ViewState ->
+                        currentState.copy(
+                            characters = it.data.results,
+                            gotError = false
+                        )
+                    }
+                }.onFailureSuspend {
+                    val errorBody = it.deserializeHttpError<ErrorResponse>()
+                    errorBody?.let {
+                        _viewState.update { currentState: ViewState ->
+                            currentState.copy(
+                                gotError = true,
+                                codeError = it.codeError,
+                                messageError = it.messageError
+                            )
+                        }
+                    }
                 }
             } catch (e: Exception) {
+                Log.d("TAG-VM-excp", e.message.toString())
                 _viewState.update { currentState: ViewState ->
                     currentState.copy(
-                        gotError = e.message.toString(),
+                        gotError = true,
+                        codeError = "exception error",
+                        messageError = e.message.toString(),
                     )
                 }
             }
         }
     }
 
+
     fun getCharacter(id: String?) {
         viewModelScope.launch {
             try {
-                val listResult = MarvelApi.retrofitCharacterService.getCharacter(id)
-                _viewState.update { currentState: ViewState ->
-                    currentState.copy(
-                        character = listResult.data.results[0]
-                    )
+                val result = MarvelApi.retrofitCharactersService.getCharacter(id)
+                result.onSuccessSuspend {
+                    Log.d("TAG-VM-succ", it.toString())
+                    _viewState.update { currentState: ViewState ->
+                        currentState.copy(
+                            character = it.data.results[0]
+                        )
+                    }
+                }.onFailureSuspend {
+                    val errorBody = it.deserializeHttpError<ErrorResponse>()
+                    errorBody?.let {
+                        _viewState.update { currentState: ViewState ->
+                            currentState.copy(
+                                gotError = true,
+                                codeError = it.codeError,
+                                messageError = it.messageError
+                            )
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 _viewState.update { currentState: ViewState ->
                     currentState.copy(
-                        gotError = e.message.toString(),
+                        gotError = true,
+                        codeError = "Unknown error",
+                        messageError = e.message.toString(),
                     )
                 }
             }
@@ -77,7 +104,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun setPalette(uri: URL?, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("TAB_VM", uri.toString())
             val imageLoader = ImageLoader.Builder(context).build()
             val request = ImageRequest.Builder(context)
                 .data(uri.toString())
@@ -106,10 +132,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var snappedItem by mutableStateOf(0)
 
-    fun setHeroColor(swatch: Palette.Swatch?): Color {
+    fun setHeroBgColor(swatch: Palette.Swatch?): Color {
         var color = Color.Red
         swatch?.rgb?.let {
-           color = Color(it)
+            color = Color(it)
         }
         return color
 

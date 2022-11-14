@@ -73,7 +73,7 @@ fun MainScreenBackground(viewModel: MainViewModel) {
                         shape = shapeRight
                     }
                     .background(
-                        viewModel.setHeroColor(vibrantSwatch)
+                        viewModel.setHeroBgColor(vibrantSwatch)
                     )
             )
         }
