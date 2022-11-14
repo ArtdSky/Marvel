@@ -68,8 +68,8 @@ lint/tmp/
 # lint/reports/
 
 #tests
-src/androidTest
-src/test
+/app/src/androidTest/
+/app/src/test
 
 gradlew.bat
 
@@ -79,3 +79,4 @@ gradle.properties
 .idea
 
 gradle/
+/app/src/androidTest/
