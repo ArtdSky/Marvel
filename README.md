@@ -2,12 +2,9 @@
 
 <table>
  <tr>
-    <td width="70%">Описание</td>
-    <td width="30%">Итоговый вид</td>
+    <td width="70%">Предпросмотр</td>
  </tr>
  <tr>
-    <td>
-        <img src="/digital/Lab3.gif"</img>
-    </td>
+    <img src="/digital/Lab3.gif"</img>
  </tr>
 </table>
