@@ -39,6 +39,7 @@ fun CharacterCard(
 ) {
 
     if(enableResize){
+
         val url = URL("${character.thumbnail.path}.${character.thumbnail.extension}")
         viewModel.setImgUrl( url )
     }

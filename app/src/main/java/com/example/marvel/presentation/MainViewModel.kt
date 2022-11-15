@@ -130,7 +130,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _palette = MutableLiveData<Palette?>()
     val palette: LiveData<Palette?> = _palette
 
-    var snappedItem by mutableStateOf(0)
 
     fun setHeroBgColor(swatch: Palette.Swatch?): Color {
         var color = Color.Red
