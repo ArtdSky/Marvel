@@ -17,14 +17,22 @@ import com.example.marvel.presentation.MainViewModel
 fun CharacterBox(navController: NavHostController, viewModel: MainViewModel) {
 
     val state by viewModel.viewState.collectAsState()
-    val allCharacters = state.characters
 
     val data = viewModel.getAllFromRoom.observeAsState()
 
-    val allCharacters2 = mutableListOf<Result>()
+    val localData = mutableListOf<Result>()
     data.value?.forEach {
-        allCharacters2.add(Result(it.id, it.name, it.description, it.thumbnail))
+        localData.add(Result(it.id, it.name, it.description, it.thumbnail))
     }
+    localData.sortedBy { it.name }
+    Log.d("TAG", localData.toString())
+
+    val allCharacters = if(state.gotError){
+        localData
+    } else{
+        state.characters
+    }
+
 
     Box(
         modifier = Modifier.padding(top = 150.dp)
@@ -32,7 +40,7 @@ fun CharacterBox(navController: NavHostController, viewModel: MainViewModel) {
         CharactersList(
             navController = navController,
             viewModel = viewModel,
-            characters =  allCharacters // allCharacters2.sortedBy { it.name }      allCharacters
+            characters =  allCharacters
         )
     }
 }

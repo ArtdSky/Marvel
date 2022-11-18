@@ -23,7 +23,6 @@ fun Home(navController: NavHostController, viewModel: MainViewModel) {
     val state by viewModel.viewState.collectAsState()
     val gotError = state.gotError
 
-
     MainScreenBackground(viewModel = viewModel)
     if (!gotError) {
         MainScreenLogo()

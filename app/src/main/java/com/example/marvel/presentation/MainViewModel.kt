@@ -48,17 +48,14 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
                         )
                 )
             }
-
-//            repository.insert(characters)
         }
     }
 
     val getAllFromRoom : LiveData<List<MarvelCharactersEntity>> = repository.getAll.asLiveData()
 
-    fun deleteAllFromRoom(){
+    private fun deleteAllFromRoom(){
         viewModelScope.launch {
             repository.deleteAll()
-            Log.d("TAG-VM", "Database cleared")
         }
     }
 
@@ -73,8 +70,6 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
                             gotError = false
                         )
                     }
-
-                    insertCharacters()
                 }.onFailureSuspend {
                     val errorBody = it.deserializeHttpError<ErrorResponse>()
                     errorBody?.let {
@@ -92,7 +87,7 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
                 _viewState.update { currentState: ViewState ->
                     currentState.copy(
                         gotError = true,
-                        codeError = "exception error",
+                        codeError = "no internet",
                         messageError = e.message.toString(),
                     )
                 }
