@@ -1,7 +1,7 @@
 package com.example.marvel.data.network
 
-import com.example.marvel.presentation.utils.PRIV_KEY
-import com.example.marvel.presentation.utils.PUB_KEY
+import com.example.marvel.presentation.utils.PrivKey
+import com.example.marvel.presentation.utils.PubKey
 import com.example.marvel.presentation.utils.TS
 import com.example.marvel.presentation.utils.md5Generator
 import okhttp3.HttpUrl
@@ -15,10 +15,11 @@ class ApiInterceptor  : Interceptor {
         val url: HttpUrl = chain.request().url
             .newBuilder()
             .addQueryParameter("ts", TS)
-            .addQueryParameter("apikey", PUB_KEY)
-            .addQueryParameter("hash", md5Generator(TS + PRIV_KEY + PUB_KEY))
+            .addQueryParameter("apikey", PubKey)
+            .addQueryParameter("hash", md5Generator(TS + PrivKey + PubKey))
             .build()
         val request: Request = chain.request().newBuilder().url(url).build()
         return chain.proceed(request)
     }
 }
+

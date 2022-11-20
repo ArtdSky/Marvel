@@ -1,5 +1,6 @@
 package com.example.marvel.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +24,6 @@ fun MainScreenBackground(viewModel: MainViewModel) {
     val url: URL? by viewModel.url.observeAsState()
 
     val context = LocalContext.current
-
     viewModel.setPalette(url, context)
     val vibrantSwatch = viewModel.palette.value?.dominantSwatch
 

@@ -4,14 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.marvel.data.local.MarvelApplication
 import com.example.marvel.presentation.navigation.CardsNavHost
 
 class MainActivity : ComponentActivity() {
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +22,12 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             val context = LocalContext.current
-            val viewModel: MainViewModel = viewModel(
-                factory = MainViewModelFactory(context.applicationContext as Application)
-            )
+            val viewModel: MainViewModel by viewModels {
+                MainViewModelFactory(
+                    application = (context.applicationContext as Application),
+                    repository = (application as MarvelApplication).repository
+                )
+            }
 
             CardsNavHost(navController = navController, viewModel = viewModel)
         }

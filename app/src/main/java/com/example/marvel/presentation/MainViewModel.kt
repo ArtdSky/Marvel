@@ -4,20 +4,21 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.*
 import androidx.palette.graphics.Palette
 import coil.ImageLoader
 import coil.request.ImageRequest
+import com.example.marvel.data.local.MarvelRepository
+import com.example.marvel.data.local.model.MarvelCharactersEntity
 import com.example.marvel.data.network.MarvelApi
 import com.example.marvel.data.network.models.ErrorResponse
 import com.skydoves.retrofit.adapters.result.onFailureSuspend
 import com.skydoves.retrofit.adapters.result.onSuccessSuspend
 import com.skydoves.retrofit.adapters.serialization.deserializeHttpError
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -25,10 +26,38 @@ import kotlinx.coroutines.launch
 import java.net.URL
 
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application, private val repository: MarvelRepository) :
+    AndroidViewModel(application) {
+
+    init {
+        deleteAllFromRoom()
+    }
 
     private val _viewState = MutableStateFlow(ViewState())
     val viewState = _viewState.asStateFlow()
+
+    fun insertCharacters() {
+        viewModelScope.launch {
+            viewState.value.characters?.forEach {
+                repository.insert(
+                    MarvelCharactersEntity(
+                        id = it.id,
+                        name = it.name,
+                        description = it.description,
+                        thumbnail = it.thumbnail
+                        )
+                )
+            }
+        }
+    }
+
+    val getAllFromRoom : LiveData<List<MarvelCharactersEntity>> = repository.getAll.asLiveData()
+
+    private fun deleteAllFromRoom(){
+        viewModelScope.launch {
+            repository.deleteAll()
+        }
+    }
 
     fun getAllCharacters() {
         viewModelScope.launch {
@@ -58,14 +87,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _viewState.update { currentState: ViewState ->
                     currentState.copy(
                         gotError = true,
-                        codeError = "exception error",
+                        codeError = "no internet",
                         messageError = e.message.toString(),
                     )
                 }
             }
         }
     }
-
 
     fun getCharacter(id: String?) {
         viewModelScope.launch {
@@ -78,6 +106,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                             character = it.data.results[0]
                         )
                     }
+
                 }.onFailureSuspend {
                     val errorBody = it.deserializeHttpError<ErrorResponse>()
                     errorBody?.let {
@@ -130,7 +159,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _palette = MutableLiveData<Palette?>()
     val palette: LiveData<Palette?> = _palette
 
-    var snappedItem by mutableStateOf(0)
 
     fun setHeroBgColor(swatch: Palette.Swatch?): Color {
         var color = Color.Red
@@ -143,10 +171,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 }
 
 
-class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+class MainViewModelFactory(
+    private val application: Application,
+    private val repository: MarvelRepository
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(application = application) as T
+            return MainViewModel(application = application, repository = repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel Class")
     }
