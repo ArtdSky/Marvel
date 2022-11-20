@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
-import com.example.marvel.data.local.MarvelApplication
+import com.example.marvel.MarvelApplication
 import com.example.marvel.presentation.navigation.CardsNavHost
 
 class MainActivity : ComponentActivity() {

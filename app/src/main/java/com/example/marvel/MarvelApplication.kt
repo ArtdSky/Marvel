@@ -1,6 +1,8 @@
-package com.example.marvel.data.local
+package com.example.marvel
 
 import android.app.Application
+import com.example.marvel.data.local.MarvelDatabase
+import com.example.marvel.data.local.MarvelRepository
 
 class MarvelApplication : Application() {
 

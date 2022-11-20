@@ -57,6 +57,7 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
         viewModelScope.launch {
             repository.deleteAll()
         }
+        Log.d("TAG-VM","delete all from room")
     }
 
     fun getAllCharacters() {
@@ -70,6 +71,7 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
                             gotError = false
                         )
                     }
+                    insertCharacters()
                 }.onFailureSuspend {
                     val errorBody = it.deserializeHttpError<ErrorResponse>()
                     errorBody?.let {
@@ -100,7 +102,6 @@ class MainViewModel(application: Application, private val repository: MarvelRepo
             try {
                 val result = MarvelApi.retrofitCharactersService.getCharacter(id)
                 result.onSuccessSuspend {
-                    Log.d("TAG-VM-succ", it.toString())
                     _viewState.update { currentState: ViewState ->
                         currentState.copy(
                             character = it.data.results[0]

@@ -12,7 +12,7 @@ import com.example.marvel.presentation.screens.home.Home
 fun CardsNavHost(navController: NavHostController, viewModel: MainViewModel) {
 
     viewModel.getAllCharacters()
-    viewModel.insertCharacters()
+
     NavHost(
         navController = navController,
         startDestination = NavRoute.MainScreen.route

@@ -25,7 +25,7 @@ fun CharacterBox(navController: NavHostController, viewModel: MainViewModel) {
         localData.add(Result(it.id, it.name, it.description, it.thumbnail))
     }
     localData.sortedBy { it.name }
-    Log.d("TAG", localData.toString())
+    Log.d("TAG", data.value.toString())
 
     val allCharacters = if(state.gotError){
         localData
