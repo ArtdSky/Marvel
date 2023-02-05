@@ -28,7 +28,8 @@ abstract class MarvelDatabase : RoomDatabase() {
                     context.applicationContext,
                     MarvelDatabase::class.java,
                     "word_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

@@ -1,11 +1,13 @@
-package com.example.marvel.data
+package com.example.marvel
 
 import android.app.Application
 import com.example.marvel.data.local.MarvelDatabase
 import com.example.marvel.data.local.MarvelRepository
+import dagger.hilt.android.HiltAndroidApp
 
-class MarvelApplication : Application() {
+@HiltAndroidApp
+class MarvelApplication : Application()
 
-    private val database by lazy { MarvelDatabase.getDatabase(this) }
-    val repository by lazy { MarvelRepository(database.marvelDao()) }
-}
+//    private val database by lazy { MarvelDatabase.getDatabase(this) }
+//    val repository by lazy { MarvelRepository(database.marvelDao()) }
+
